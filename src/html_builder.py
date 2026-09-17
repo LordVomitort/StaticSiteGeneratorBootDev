@@ -92,7 +92,7 @@ def markdown_to_html_node(markdown: str):
     return ParentNode("div",nodos)
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
 
     with open(from_path) as md_file:
@@ -107,6 +107,9 @@ def generate_page(from_path, template_path, dest_path):
     template_content = template_content.replace("{{ Title }}", titulo)
 
     template_content = template_content.replace("{{ Content }}", html_string)
+
+    template_content = template_content.replace('href="/', f'href="{basepath}')
+    template_content = template_content.replace('src="/', f'src="{basepath}')
 
     pre_path = os.path.dirname(dest_path)
     try:
